@@ -15,6 +15,9 @@ function Navbar() {
         <li>
           <Link to="/offres"> Tableau d'offres </Link>
         </li>
+        <li>
+          <Link to="/offresEntreprise"> Creer un offre </Link>
+        </li>
       </ul>
     </nav>
   );
