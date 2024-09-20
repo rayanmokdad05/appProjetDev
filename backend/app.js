@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 const UtilisateurRouter = require("./Routes/user-route");
-const Workout = require("./Routes/workout-route");
+const EntrepriseRouter = require("./Routes/Entreprise-route");
+const Travail = require("./Routes/travail-route");
 
 //initialiser serveur
 const app = express();
@@ -16,8 +17,9 @@ app.use(cors());
 const MONGODB_URI = "mongodb://localhost:27017/projetsyntheseDB";
 const PORT = process.env.PORT || 5000;
 
+app.use("/api/EntrepriseRouter", EntrepriseRouter);
 app.use("/api/utilisateur", UtilisateurRouter);
-app.use("/api/Workout", Workout);
+app.use("/api/Travail", Travail);
 
 // établir une connexion à la BD
 mongoose
