@@ -1,25 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import '../Offres/OffresEntreprise.css';
-export default function Offres() {
-  const [offres, setOffres] = useState([]);
+import React, { useState } from "react";
+
+export default function OffresEntreprise({ setOffres }) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const newOffre = {
-      id: offres.length + 1,
+      id: Date.now(), // Utiliser un ID unique
       title,
       description,
     };
-    setOffres([...offres, newOffre]);
+    setOffres((prevOffres) => [...prevOffres, newOffre]); // Ajoute l'offre à la liste
     setTitle('');
     setDescription('');
   };
 
   return (
     <div className="container">
-      <h1>Creer un offre</h1>
+      <h1>Créer une offre</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Titre:</label>
@@ -27,6 +26,7 @@ export default function Offres() {
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+            required
           />
         </div>
         <div>
@@ -34,18 +34,11 @@ export default function Offres() {
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+            required
           />
         </div>
         <button type="submit">Ajouter Offre</button>
       </form>
-      <ul>
-        {offres.map((offre) => (
-          <li key={offre.id}>
-            <h2>{offre.title}</h2>
-            <p>{offre.description}</p>
-          </li>
-        ))}
-      </ul>
     </div>
   );
 }

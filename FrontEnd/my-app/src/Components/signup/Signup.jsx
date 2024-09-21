@@ -7,13 +7,12 @@ export default function Inscrire() {
   const [prenom, setPrenom] = useState("");
   const [courriel, setCourriel] = useState("");
   const [motDePasse, setMotDePasse] = useState("");
-  const [typeUtilisateur, setTypeUtilisateur] = useState("Candidat"); // Par défaut, "Candidat"
+  const [typeUtilisateur, setTypeUtilisateur] = useState("Candidat");
   const [emailError, setEmailError] = useState("");
   const navigate = useNavigate();
 
   const authSubmitHandler = (event) => {
     event.preventDefault();
-
     if (!courriel.includes("@")) {
       setEmailError("Le courriel doit contenir '@'");
       return;
@@ -30,7 +29,7 @@ export default function Inscrire() {
 
     USERS.push(newUser);
     alert("Compte créé avec succès !");
-    navigate("/dashboard");
+    navigate("/login");
   };
 
   const handleCourrielChange = (event) => {
@@ -49,8 +48,6 @@ export default function Inscrire() {
         <div className="screen__content signup">
           <form onSubmit={authSubmitHandler} className="login">
             <h2>Page d'inscription</h2>
-
-            {/* Champs pour le prénom */}
             <div className="control-row">
               <label htmlFor="Prenom">Prenom</label>
               <input
@@ -62,8 +59,6 @@ export default function Inscrire() {
                 required
               />
             </div>
-
-            {/* Champs pour le courriel */}
             <div className="control-row">
               <label htmlFor="courriel">Courriel</label>
               <input
@@ -76,8 +71,6 @@ export default function Inscrire() {
               />
               {emailError && <p className="error">{emailError}</p>}
             </div>
-
-            {/* Champs pour le mot de passe */}
             <div className="control-row">
               <label htmlFor="MotDePasse">Mot de passe</label>
               <input
@@ -89,8 +82,6 @@ export default function Inscrire() {
                 required
               />
             </div>
-
-            {/* Choix entre Entreprise et Candidat */}
             <div className="control-row">
               <label>Type d'utilisateur</label>
               <div className="control">
@@ -116,8 +107,6 @@ export default function Inscrire() {
                 <label htmlFor="Entreprise">Entreprise</label>
               </div>
             </div>
-
-            {/* Champs supplémentaires pour Entreprise */}
             {typeUtilisateur === "Entreprise" && (
               <div className="control-row">
                 <label htmlFor="NomEntreprise">Nom de l'Entreprise</label>
@@ -129,7 +118,6 @@ export default function Inscrire() {
                 />
               </div>
             )}
-
             <div className="form-actions">
               <button type="submit" className="button login__submit">
                 Inscrire

@@ -1,31 +1,34 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
-export default function Offres() {
-  const [offres, setOffres] = useState([]);
+export default function Offres({ offres, loggedInUser, setOffres }) {
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchOffres = async () => {
-      const data = [
-        { id: 1, title: "Offre 1", description: "Description de l'offre 1" },
-        { id: 2, title: "Offre 2", description: "Description de l'offre 2" },
-        { id: 3, title: "Offre 3", description: "Description de l'offre 3" },
-      ];
-      setOffres(data);
-    };
+  if (!loggedInUser) {
+    navigate("/login");
+    return null;
+  }
 
-    fetchOffres();
-  }, []);
+  const handleDelete = (id) => {
+    // Supprime l'offre avec l'ID correspondant
+    setOffres(offres.filter((offre) => offre.id !== id));
+  };
 
   return (
     <div>
       <h1>Liste des Offres</h1>
       <ul>
-        {offres.map((offre) => (
-          <li key={offre.id}>
-            <h2>{offre.title}</h2>
-            <p>{offre.description}</p>
-          </li>
-        ))}
+        {offres.length > 0 ? (
+          offres.map((offre) => (
+            <li key={offre.id}>
+              <h2>{offre.title}</h2>
+              <p>{offre.description}</p>
+              <button onClick={() => handleDelete(offre.id)}>Supprimer</button>
+            </li>
+          ))
+        ) : (
+          <p>Aucune offre disponible.</p>
+        )}
       </ul>
     </div>
   );

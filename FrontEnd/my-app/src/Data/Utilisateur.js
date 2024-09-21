@@ -1,20 +1,17 @@
 export const USERS = [
   {
     id_utilisateur: 1,
-    nom: "Caesar",
-    mot_de_passe: "password1",
+    prenom: "Caesar",
     email: "utilisateur1@exemple.com",
+    mot_de_passe: "password1",
+    type: "Candidat",
   },
   {
     id_utilisateur: 2,
-    nom: "Tony",
-    mot_de_passe: "password2",
+    prenom: "Sophie",
     email: "utilisateur2@exemple.com",
+    mot_de_passe: "password2",
+    type: "Entreprise",
   },
-  {
-    id_utilisateur: 3,
-    nom: "Rayan",
-    mot_de_passe: "password3",
-    email: "utilisateur3@exemple.com",
-  },
+  // Ajoute d'autres utilisateurs si nécessaire
 ];

@@ -3,8 +3,11 @@ const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
 
+// Générer un token JWT
 const createToken = (_id) => {
-  return jwt.sign({ _id }, "asdasdasd", { expiresIn: "3d" });
+  return jwt.sign({ _id }, process.env.JWT_SECRET || "asdasdasd", {
+    expiresIn: "3d",
+  });
 };
 
 // Connexion
@@ -24,25 +27,28 @@ const ConnexionUti = async (req, res) => {
   }
 };
 
-// Inscrire
+// Inscription
 const InscrireUti = async (req, res) => {
   const { nom, email, password } = req.body;
 
   try {
-    const utilisateur = await Utilisateur.inscrire(nom, email, password); // Passed 'nom' to the inscrire function
+    const utilisateur = await Utilisateur.inscrire(nom, email, password);
 
-    res.status(200).json({ nom, email, utilisateur });
+    // Générer un token après l'inscription
+    const token = createToken(utilisateur._id);
+
+    res.status(200).json({ nom, email, token, userId: utilisateur._id });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
+// Récupérer les infos de l'utilisateur
 const UserInfo = async (req, res) => {
   const { uid } = req.params;
 
   try {
     if (!ObjectId.isValid(uid)) {
-      // Validate uid before querying
       return res.status(400).json({ error: "Invalid user ID format" });
     }
 
@@ -58,7 +64,7 @@ const UserInfo = async (req, res) => {
   }
 };
 
-// pour mettre a jour les informations de l'utilisateur
+// Mise à jour des infos utilisateur
 const UpdateUser = async (req, res, next) => {
   const { uid } = req.params;
   const { nom, email } = req.body;
@@ -87,13 +93,13 @@ const UpdateUser = async (req, res, next) => {
   }
 };
 
-// pour supprimer le compte de l'utilisateur
+// Suppression du compte utilisateur
 const DeleteUser = async (req, res, next) => {
   const { uid } = req.params;
 
   try {
     if (!ObjectId.isValid(uid)) {
-      return res.status(400).json({ error: "Invalid user ID " });
+      return res.status(400).json({ error: "Invalid user ID format" });
     }
 
     await Utilisateur.findByIdAndDelete(uid);

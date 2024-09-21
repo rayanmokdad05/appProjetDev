@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import { USERS } from "../../Data/Utilisateur";
@@ -24,61 +24,39 @@ export default function Connexion({ onLogin }) {
 
     if (user) {
       onLogin(user);
-      navigate(`/profile/${user.id_utilisateur}`, { state: { user } });
+      navigate("/offres");
+    } else {
+      alert("Email ou mot de passe incorrect");
     }
   };
 
   return (
     <div className="container">
-      <div className="screen">
-        <div className="screen__background">
-          <div className="screen__background__shape screen__background__shape1"></div>
-          <div className="screen__background__shape screen__background__shape2"></div>
-          <div className="screen__background__shape screen__background__shape3"></div>
-          <div className="screen__background__shape screen__background__shape4"></div>
+      <form onSubmit={authSubmitHandler} className="login">
+        <h2>Connexion</h2>
+        <div className="control-row">
+          <label htmlFor="couriel">Courriel</label>
+          <input
+            id="couriel"
+            type="text"
+            value={enteredEmail}
+            onChange={(e) => setEnteredEmail(e.target.value)}
+            required
+          />
+          {emailError && <p className="error-message">{emailError}</p>}
         </div>
-
-        <div className="screen__content">
-          <form onSubmit={authSubmitHandler} className="login">
-            <h2 className="active">Connexion</h2>
-
-            <div className="control-row">
-              <div className="control no-margin login__field">
-                <label htmlFor="couriel">Courriel</label>
-                <input
-                  id="couriel"
-                  type="text"
-                  name="couriel"
-                  className="login__input"
-                  required
-                  value={enteredEmail}
-                  onChange={(e) => setEnteredEmail(e.target.value)}
-                />
-                {emailError && <p className="error-message">{emailError}</p>}
-              </div>
-
-              <div className="control no-margin login__field">
-                <label htmlFor="MotDePasse">Mot de passe</label>
-                <input
-                  id="MotDePasse"
-                  type="password"
-                  name="MotDePasse"
-                  className="login__input"
-                  value={enteredPassword}
-                  onChange={(e) => setEnteredPassword(e.target.value)}
-                  required
-                />
-              </div>
-            </div>
-
-            <p className="form-actions">
-              <button className="button login__submit" type="submit">
-                Se connecter
-              </button>
-            </p>
-          </form>
+        <div className="control-row">
+          <label htmlFor="MotDePasse">Mot de passe</label>
+          <input
+            id="MotDePasse"
+            type="password"
+            value={enteredPassword}
+            onChange={(e) => setEnteredPassword(e.target.value)}
+            required
+          />
         </div>
-      </div>
+        <button type="submit">Se connecter</button>
+      </form>
     </div>
   );
 }
