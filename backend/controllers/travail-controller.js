@@ -52,6 +52,10 @@ const deleteTravail = async (req, res, next) => {
   }
 };
 
-exports.getTravaux = getTravaux;
-exports.createTravail = createTravail;
-exports.deleteTravail = deleteTravail;
+module.exports = {
+  getTravaux,
+  createTravail,
+  deleteTravail
+};
+
+

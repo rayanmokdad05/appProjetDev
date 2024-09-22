@@ -13,5 +13,4 @@ export const USERS = [
     mot_de_passe: "password2",
     type: "Entreprise",
   },
-  // Ajoute d'autres utilisateurs si nécessaire
 ];

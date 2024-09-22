@@ -1,15 +1,14 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const control = require("../controllers/user-controller");
+const {
+  ConnexionUti,
+  InscrireUti,
 
-//connection et inscription
-router.post("/Login", control.ConnexionUti);
-router.post("/SignUp", control.InscrireUti);
+} = require('../controllers/user-controller'); // Vérifie que le chemin est correct
 
+// Routes
+router.post('/inscription', InscrireUti); // Pour l'inscription
+router.post('/connexion', ConnexionUti); // Pour la connexion
 
-//page profile
-router.get("/UserInfo/:uid", control.UserInfo);
-router.patch("/Update/:uid", control.UpdateUser);
-router.delete("/Delete/:uid", control.DeleteUser);
 
 module.exports = router;

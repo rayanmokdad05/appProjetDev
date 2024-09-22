@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Signup.css";
-import { USERS } from "../../Data/Utilisateur";
 
 export default function Inscrire() {
   const [prenom, setPrenom] = useState("");
@@ -11,7 +10,7 @@ export default function Inscrire() {
   const [emailError, setEmailError] = useState("");
   const navigate = useNavigate();
 
-  const authSubmitHandler = (event) => {
+  const authSubmitHandler = async (event) => {
     event.preventDefault();
     if (!courriel.includes("@")) {
       setEmailError("Le courriel doit contenir '@'");
@@ -20,16 +19,32 @@ export default function Inscrire() {
     setEmailError("");
 
     const newUser = {
-      id_utilisateur: USERS.length + 1,
-      prenom: prenom,
+      nom: prenom,
       email: courriel,
-      mot_de_passe: motDePasse,
+      password: motDePasse,
       type: typeUtilisateur,
     };
 
-    USERS.push(newUser);
-    alert("Compte créé avec succès !");
-    navigate("/login");
+    try {
+      const response = await fetch("http://localhost:5000/api/utilisateur/inscription", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newUser),
+      });
+
+      if (!response.ok) {
+        throw new Error("Erreur lors de l'inscription");
+      }
+
+      const data = await response.json();
+      alert("Compte créé avec succès !");
+      navigate("/login");
+    } catch (error) {
+      console.error("Erreur lors de l'inscription :", error);
+      alert("Erreur lors de l'inscription");
+    }
   };
 
   const handleCourrielChange = (event) => {
