@@ -1,14 +1,9 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const {
-  ConnexionUti,
-  InscrireUti,
-
-} = require('../controllers/user-controller'); // Vérifie que le chemin est correct
+const userController = require("../controllers/user-controller");
 
 // Routes
-router.post('/inscription', InscrireUti); // Pour l'inscription
-router.post('/connexion', ConnexionUti); // Pour la connexion
-
+router.post("/inscription", userController.InscrireUti); // Pour l'inscription
+router.post("/login", userController.ConnexionUti); // Pour la connexion
 
 module.exports = router;

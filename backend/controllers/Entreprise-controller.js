@@ -43,79 +43,14 @@ const InscrireUti = async (req, res) => {
   }
 };
 
-// Récupérer les infos de l'utilisateur
-const UserInfo = async (req, res) => {
-  const { uid } = req.params;
 
-  try {
-    if (!ObjectId.isValid(uid)) {
-      return res.status(400).json({ error: "Invalid user ID format" });
-    }
 
-    const userFound = await Utilisateur.findById(uid);
-    if (userFound) {
-      res.json(userFound);
-    } else {
-      res.status(404).json({ message: "Aucun utilisateur trouvé" });
-    }
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: "Erreur interne du serveur" });
-  }
-};
 
-// Mise à jour des infos utilisateur
-const UpdateUser = async (req, res, next) => {
-  const { uid } = req.params;
-  const { nom, email } = req.body;
-
-  try {
-    const updatedFields = {};
-    if (nom) updatedFields.nom = nom;
-    if (email) updatedFields.email = email;
-
-    if (!ObjectId.isValid(uid)) {
-      return res.status(400).json({ error: "Invalid user ID format" });
-    }
-
-    const updatedUser = await Utilisateur.findByIdAndUpdate(
-      uid,
-      updatedFields,
-      { new: true }
-    );
-    res.status(200).json({
-      message: "Informations utilisateur mises à jour avec succès",
-      utilisateur: updatedUser,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Erreur interne du serveur" });
-  }
-};
-
-// Suppression du compte utilisateur
-const DeleteUser = async (req, res, next) => {
-  const { uid } = req.params;
-
-  try {
-    if (!ObjectId.isValid(uid)) {
-      return res.status(400).json({ error: "Invalid user ID format" });
-    }
-
-    await Utilisateur.findByIdAndDelete(uid);
-    res
-      .status(200)
-      .json({ message: "Compte utilisateur supprimé avec succès" });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Erreur interne du serveur" });
-  }
-};
 
 module.exports = {
   ConnexionUti,
   InscrireUti,
-  UserInfo,
-  UpdateUser,
-  DeleteUser,
+  //UserInfo,
+  //UpdateUser,
+  //DeleteUser,
 };

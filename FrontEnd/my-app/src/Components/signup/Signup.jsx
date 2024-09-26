@@ -26,13 +26,16 @@ export default function Inscrire() {
     };
 
     try {
-      const response = await fetch("http://localhost:5000/api/utilisateur/inscription", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newUser),
-      });
+      const response = await fetch(
+        "mongodb+srv://srihari:srihari123@jobproject.xk6ph.mongodb.net/api/utilisateur/inscription",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newUser),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Erreur lors de l'inscription");

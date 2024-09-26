@@ -6,9 +6,10 @@ const control = require("../controllers/Entreprise-controller");
 router.post("/Login", control.ConnexionUti);
 router.post("/SignUp", control.InscrireUti);
 
-// Page profil
+/* Page profil
 router.get("/EntrepriseInfo/:uid", control.UserInfo);
 router.patch("/Update/:uid", control.UpdateUser);
 router.delete("/Delete/:uid", control.DeleteUser);
+*/
 
 module.exports = router;

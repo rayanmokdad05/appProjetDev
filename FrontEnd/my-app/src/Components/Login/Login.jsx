@@ -1,62 +1,87 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import "./Login.css";
-import { USERS } from "../../Data/Utilisateur";
+import { useState, useContext } from "react";
+import { Link } from "react-router-dom";
+import { useHttpClient } from "../../hooks/http-hook";
+import { AuthContext } from "../../context/AuthContext";
 
-export default function Connexion({ onLogin }) {
-  const [enteredEmail, setEnteredEmail] = useState("");
-  const [enteredPassword, setEnteredPassword] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const navigate = useNavigate();
+export default function Login() {
+  const auth = useContext(AuthContext);
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const [enteredValues, setEnteredValues] = useState({
+    courriel: "",
+    motDePasse: "",
+  });
 
-  const authSubmitHandler = (event) => {
+  // Gestion de la modification des champs
+  const handleInputChange = (identifier, value) => {
+    clearError();
+    setEnteredValues((prevValue) => ({
+      ...prevValue,
+      [identifier]: value,
+    }));
+  };
+
+  // Gestion de la soumission du formulaire de connexion
+  const authSubmitHandler = async (event) => {
     event.preventDefault();
-    if (!enteredEmail.includes("@")) {
-      setEmailError("Le courriel doit contenir '@'");
-      return;
-    }
-    setEmailError("");
-
-    const user = USERS.find(
-      (user) =>
-        user.email === enteredEmail && user.mot_de_passe === enteredPassword
-    );
-
-    if (user) {
-      onLogin(user);
-      navigate("/offres");
-    } else {
-      alert("Email ou mot de passe incorrect");
+    try {
+      const response = await sendRequest(
+        process.env.REACT_APP_BACKEND_API_URL + "/api/utilisateur/connexion", // Adapter l'URL selon tes routes
+        "POST",
+        JSON.stringify(enteredValues),
+        {
+          "Content-Type": "application/json",
+        }
+      );
+      // Connexion et stockage du token
+      auth.login(response.userId, response.token);
+      localStorage.setItem("token", response.token);
+    } catch (err) {
+      console.error(err);
     }
   };
 
   return (
-    <div className="container">
-      <form onSubmit={authSubmitHandler} className="login">
-        <h2>Connexion</h2>
-        <div className="control-row">
-          <label htmlFor="couriel">Courriel</label>
+    <form onSubmit={authSubmitHandler}>
+      <h2>Formulaire de connexion</h2>
+
+      <div className="control-row">
+        <div className="control no-margin">
+          <label htmlFor="courriel">Adresse courriel :</label>
           <input
-            id="couriel"
+            id="courriel"
             type="text"
-            value={enteredEmail}
-            onChange={(e) => setEnteredEmail(e.target.value)}
+            name="courriel"
+            onChange={(event) =>
+              handleInputChange("courriel", event.target.value)
+            }
+            value={enteredValues.courriel}
             required
           />
-          {emailError && <p className="error-message">{emailError}</p>}
         </div>
-        <div className="control-row">
-          <label htmlFor="MotDePasse">Mot de passe</label>
+
+        <div className="control no-margin">
+          <label htmlFor="motDePasse">Mot de passe :</label>
           <input
-            id="MotDePasse"
+            id="motDePasse"
             type="password"
-            value={enteredPassword}
-            onChange={(e) => setEnteredPassword(e.target.value)}
+            name="motDePasse"
+            onChange={(event) =>
+              handleInputChange("motDePasse", event.target.value)
+            }
+            value={enteredValues.motDePasse}
             required
           />
         </div>
-        <button type="submit">Se connecter</button>
-      </form>
-    </div>
+      </div>
+
+      <p className="form-actions">
+        <Link to="/signup">
+          <button className="button button-flat">S'inscrire</button>
+        </Link>
+        <button className="button" type="submit">
+          Se connecter
+        </button>
+      </p>
+    </form>
   );
 }
