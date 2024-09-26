@@ -12,7 +12,7 @@ const offreSchema = new Schema({
   },
   contactEmail: {
     type: String,
-    required: true,
+    required: true,  // Not unique here
   },
   contactPhone: {
     type: String,

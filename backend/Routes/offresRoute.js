@@ -4,7 +4,7 @@ const {
     getOffers,
     getOffer,
     deleteOffer
-} = require('../controllers/entrepriseController')
+} = require('../controllers/offreController')
 
 const router = express.Router();
 

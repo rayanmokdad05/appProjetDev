@@ -7,7 +7,7 @@ require('dotenv').config(); // Load environment variables from .env file
 
 const app = express();
 
-const offerRoutes = require("./Routes/entrepriseRoute");
+const offerRoutes = require("./Routes/offresRoute");
 
 app.use(express.json());
 app.use(cors());
@@ -18,8 +18,7 @@ app.use(errorHandler);
 
 
 app.use('/api/offers', offerRoutes);
-app.use("/api/entreprises", require("./Routes/Entreprise-route")); // Chemin vers les entreprises
-app.use("/api/travaux", require("./Routes/travail-route")); // Chemin vers les travaux
+
 
 
 // Connexion à la base de données

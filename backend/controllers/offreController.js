@@ -1,4 +1,4 @@
-const Offre = require('../models/entreprise-model')
+const Offre = require('../models/offresModel')
 const mongoose = require('mongoose')
 
 // get all offers
