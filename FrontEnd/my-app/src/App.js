@@ -39,15 +39,15 @@ function App() {
             }
           />
 
-          <Route
-            path="/offresEntreprise"
-            element={
-              loggedInUser && loggedInUser.type === "Entreprise" ? (
-                <OffresEntreprise setOffres={setOffres} />
-              ) : (
-                <Navigate to="/login" />
-              )
-            }
+<Route
+  path="/offresEntreprise"
+  element={
+    loggedInUser && loggedInUser.type === "Entreprise" ? (
+      <OffresEntreprise setOffres={setOffres} />
+    ) : (
+      <Navigate to="/login" />
+    )
+  }
           />
 
           <Route path="/profile/:userId" element={<Profile user={loggedInUser} />} />

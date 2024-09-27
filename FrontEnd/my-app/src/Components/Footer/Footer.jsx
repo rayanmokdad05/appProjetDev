@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import "./Footer.css";
 
 //components
+import OffresDetails from '../Offres/OffresDetails'
+import OffreForm from '../OffreForm/OffreForm'
 
 
 const Footer = () => {
@@ -28,9 +30,10 @@ const Footer = () => {
 
       <div className="offers">
         {offers.length > 0 && offers.map((offer) => (
-          <p key={offer._id}>{offer.title}</p>
+          <OffresDetails key={offer._id} offer={offer}/>
         ))}
       </div>
+      <OffreForm />
 
       <div className="lmj-footer-elem">Laissez-nous votre mail :</div>
       <input placeholder="Entrez votre mail" />
